@@ -1,7 +1,7 @@
 package ch.bildspur.yolo
 
 import ch.bildspur.yolo.io.ImageSource
-import ch.bildspur.yolo.io.SingleImageSource
+import ch.bildspur.yolo.io.PS3CamSource
 import ch.bildspur.yolo.io.WebCamSource
 import ch.bildspur.yolo.util.ExponentialMovingAverage
 import ch.bildspur.yolo.vision.ImageDetector
@@ -12,15 +12,15 @@ import processing.core.PApplet
 
 
 class Sketch : PApplet() {
-    private val source : ImageSource = WebCamSource() //SingleImageSource("data/lena.png")
+    private val source : ImageSource = PS3CamSource() //SingleImageSource("data/lena.png")
     private val detector : ImageDetector = YoloDetector()
 
-    var minConfidence = 0.8
+    var minConfidence = 0.5
 
     var fpsAverage = ExponentialMovingAverage(0.1)
 
     override fun settings() {
-        size(512, 512, FX2D)
+        size(800, 600, FX2D)
     }
 
     override fun setup() {

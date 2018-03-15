@@ -41,6 +41,13 @@ dependencies {
 
     // opencv
     compile files('lib/opencv/opencv-341.jar')
+
+    // native
+    compile group: 'org.usb4java', name: 'usb4java', version: '1.2.0'
+    compile group: 'org.usb4java', name: 'usb4java-javax', version: '1.2.0'
+
+    // ps3eye
+    compile files('lib/ps3eye/PS3Eye.jar')
 }
 
 compileKotlin {
