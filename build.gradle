@@ -34,6 +34,11 @@ dependencies {
     compile group: 'org.jogamp.jogl', name: 'jogl-all-main', version: '2.3.2'
     compile group: 'org.jogamp.gluegen', name: 'gluegen-rt-main', version: '2.3.2'
 
+    // video
+    compile files('lib/video/gst1-java-core-0.9.1.jar')
+    compile files('lib/video/jna.jar')
+    compile files('lib/video/video.jar')
+
     // opencv
     compile files('lib/opencv/opencv-341.jar')
 }

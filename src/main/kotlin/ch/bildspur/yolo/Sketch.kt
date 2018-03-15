@@ -2,6 +2,7 @@ package ch.bildspur.yolo
 
 import ch.bildspur.yolo.io.ImageSource
 import ch.bildspur.yolo.io.SingleImageSource
+import ch.bildspur.yolo.io.WebCamSource
 import ch.bildspur.yolo.util.ExponentialMovingAverage
 import ch.bildspur.yolo.vision.ImageDetector
 import ch.bildspur.yolo.vision.YoloDetector
@@ -11,8 +12,8 @@ import processing.core.PApplet
 
 
 class Sketch : PApplet() {
-    val source : ImageSource = SingleImageSource("data/lena.png")
-    val detector : ImageDetector = YoloDetector()
+    private val source : ImageSource = WebCamSource() //SingleImageSource("data/lena.png")
+    private val detector : ImageDetector = YoloDetector()
 
     var minConfidence = 0.8
 
