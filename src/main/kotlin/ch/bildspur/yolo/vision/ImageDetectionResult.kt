@@ -9,10 +9,11 @@ class ImageDetectionResult (val data : Mat, val names : List<String>, val width 
         val y = data[it, 1][0]
         val w = data[it, 2][0]
         val h = data[it, 3][0]
+        val confidence = data[it, 4][0]
 
-        val confidences = (4 until data.cols()).map { column -> data[it, column][0] }.toDoubleArray()
+        // read class
+        val confidences = (5 until data.cols()).map { column -> data[it, column][0] }.toDoubleArray()
         val maxConfidenceIndex = confidences.indexOfMax()!!
-        val confidence = confidences[maxConfidenceIndex]
 
         val name = names[maxConfidenceIndex]
 
