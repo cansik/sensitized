@@ -27,6 +27,10 @@ fun Float.isApproximate(value: Double, error: Double): Boolean {
     return (Math.abs(Math.abs(this) - Math.abs(value)) < error)
 }
 
+fun DoubleArray.indexOfMax(): Int? {
+    return this.withIndex().maxBy { it.value }?.index
+}
+
 fun PGraphics.draw(block: (g: PGraphics) -> Unit) {
     this.beginDraw()
     block(this)

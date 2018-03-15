@@ -2,16 +2,22 @@ package ch.bildspur.yolo.vision
 
 import org.opencv.core.Mat
 
-class ImageDetectionResult (val data : Mat, val width : Double, val height : Double)
+class ImageDetectionResult (val data : Mat, val names : List<String>, val width : Double, val height : Double)
 {
     val detections = (0 until data.rows()).map {
         val x = data[it, 0][0]
         val y = data[it, 1][0]
         val w = data[it, 2][0]
         val h = data[it, 3][0]
-        val confidence = data[it, 4][0]
 
-        DetectionArea((x - w / 2.0) * width, (y - h / 2.0) * height, w, h, confidence)
+        val confidences = (4 until data.cols()).map { column -> data[it, column][0] }.toDoubleArray()
+        val maxConfidenceIndex = confidences.indexOfMax()!!
+        val confidence = confidences[maxConfidenceIndex]
+
+        val name = names[maxConfidenceIndex]
+
+        DetectionArea((x - w / 2.0) * width, (y - h / 2.0) * height, w, h,
+                confidence, name, data.row(it))
     }
 
     override fun toString(): String {

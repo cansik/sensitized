@@ -4,6 +4,7 @@ import ch.bildspur.yolo.io.ImageSource
 import ch.bildspur.yolo.io.SingleImageSource
 import ch.bildspur.yolo.vision.ImageDetector
 import ch.bildspur.yolo.vision.YoloDetector
+import ch.bildspur.yolo.vision.format
 import ch.bildspur.yolo.vision.toMat
 import processing.core.PApplet
 
@@ -12,7 +13,7 @@ class Sketch : PApplet() {
     val source : ImageSource = SingleImageSource("data/lena.png")
     val detector : ImageDetector = YoloDetector()
 
-    var minConfidence = 0.3
+    var minConfidence = 0.8
 
     override fun settings() {
         size(512, 512, FX2D)
@@ -34,14 +35,17 @@ class Sketch : PApplet() {
 
 
         // draw results
-        noFill()
-        stroke(0f, 255f, 0f)
         result.detections.filter { it.confidence > minConfidence }
                 .forEach{
+                    noFill()
+                    stroke(0f, 255f, 0f)
+                    strokeWeight(2f)
                     rect(it.x.toFloat(), it.y.toFloat(), it.width.toFloat() * image.width, it.height.toFloat() * image.height)
-                }
 
-        println("FPS: $frameRate")
+                    textSize(18f)
+                    fill(0f, 255f, 0f)
+                    text("${it.name.toUpperCase()} (${it.confidence.format(2)})", it.x.toFloat(), it.y.toFloat() - 10)
+                }
     }
 
     override fun stop() {
