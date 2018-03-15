@@ -19,7 +19,7 @@ apply plugin: 'application'
 sourceCompatibility = 1.8
 
 mainClassName = "ch.bildspur.yolo.Main"
-applicationDefaultJvmArgs = ["-Djava.library.path=lib/opencv/native/"]
+applicationDefaultJvmArgs = ["-Djava.library.path=lib/opencv"]
 
 repositories {
     mavenCentral()
@@ -35,7 +35,7 @@ dependencies {
     compile group: 'org.jogamp.gluegen', name: 'gluegen-rt-main', version: '2.3.2'
 
     // opencv
-    compile file: 'lib/opencv/opencv-341.jar'
+    compile files('lib/opencv/opencv-341.jar')
 }
 
 compileKotlin {
