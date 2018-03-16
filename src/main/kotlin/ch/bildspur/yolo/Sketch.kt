@@ -20,7 +20,7 @@ class Sketch : PApplet() {
     private val detector : ImageDetector = YoloDetector()
     private val renderer = SerialRenderer("/dev/tty.SLAB_USBtoUART")
 
-    var minConfidence = 0.6
+    var minConfidence = 0.8
     var fpsAverage = ExponentialMovingAverage(0.1)
 
     val brightness = EasingFloat(0.3f)
@@ -41,8 +41,8 @@ class Sketch : PApplet() {
         background(55f)
 
         val image = source.readImage()
-        val result = detector.detect(image.toMat())
         image(source.readImage(), 0f, 0f)
+        val result = detector.detect(image.toMat())
 
         // draw results
         var personCount = 0
