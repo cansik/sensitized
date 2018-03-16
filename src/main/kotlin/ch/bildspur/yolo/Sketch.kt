@@ -24,8 +24,6 @@ class Sketch : PApplet() {
     var minConfidence = 0.8
     var fpsAverage = ExponentialMovingAverage(0.1)
 
-    val brightness = EasingFloat(0.3f)
-
     override fun settings() {
         size(800, 600, FX2D)
     }
@@ -38,7 +36,7 @@ class Sketch : PApplet() {
         renderer.setup(this)
         renderer.startAsync()
 
-        brightness.value = 0f
+        renderer.brightness.value = 0f
     }
 
     override fun draw() {
@@ -66,15 +64,11 @@ class Sketch : PApplet() {
                 }
 
         // do something with results
-        brightness.target = map(personCount.toFloat(), 0f, maxPerson.toFloat(), 0f, maxBrightness.toFloat())
-        brightness.update()
-
-        // render
-        renderer.brightness = brightness.value.roundToInt()
+        renderer.brightness.target = map(personCount.toFloat(), 0f, maxPerson.toFloat(), 0f, maxBrightness.toFloat())
 
         // show fps
         fpsAverage += frameRate.toDouble()
-        surface.setTitle("YOLO | FPS: ${frameRate.format(2)}\tAVG: ${fpsAverage.average.format(2)}\tBright: ${brightness.value.format(2)}")
+        surface.setTitle("YOLO | FPS: ${frameRate.format(2)}\tAVG: ${fpsAverage.average.format(2)}\tBright: ${renderer.brightness.value.format(2)}")
     }
 
     override fun stop() {
