@@ -10,6 +10,7 @@ import ch.bildspur.yolo.vision.YoloDetector
 import ch.bildspur.yolo.vision.format
 import ch.bildspur.yolo.vision.toMat
 import processing.core.PApplet
+import processing.core.PConstants
 import kotlin.math.roundToInt
 
 
@@ -21,11 +22,14 @@ class Sketch : PApplet() {
     private val detector : ImageDetector = YoloDetector()
     private val renderer = SerialRenderer("/dev/tty.SLAB_USBtoUART")
 
-    var minConfidence = 0.8
+    var minConfidence = 0.6
     var fpsAverage = ExponentialMovingAverage(0.1)
 
+    val scale = 2f
+
     override fun settings() {
-        size(800, 600, FX2D)
+        //size(800, 600, FX2D)
+        fullScreen(PConstants.FX2D)
     }
 
     override fun setup() {
@@ -42,26 +46,45 @@ class Sketch : PApplet() {
     override fun draw() {
         background(55f)
 
+        noCursor()
+
         val image = source.readImage()
-        image(source.readImage(), 0f, 0f)
+
+        pushMatrix()
+        translate((width / 2)- (image.width * scale / 2f), (height / 2)- (image.height * scale / 2f))
+        image(source.readImage(), 0f, 0f,image.width * scale, image.height * scale)
         val result = detector.detect(image.toMat())
 
         // draw results
         var personCount = 0
         result.detections.filter { it.confidence > minConfidence }
                 .forEach{
+                    val isPerson = it.name.equals("person") && it.row[0, 5][0] > 0.0
+
                     noFill()
-                    stroke(0f, 255f, 0f)
+
+                    if(isPerson)
+                        stroke(0f, 255f, 255f)
+                    else
+                        stroke(255f, 255f, 0f)
+
                     strokeWeight(2f)
-                    rect(it.x.toFloat(), it.y.toFloat(), it.width.toFloat() * image.width, it.height.toFloat() * image.height)
+                    rect(it.x.toFloat() * scale, it.y.toFloat() * scale, it.width.toFloat() * image.width * scale, it.height.toFloat() * image.height * scale)
 
                     textSize(14f)
-                    fill(0f, 255f, 0f)
-                    text("${it.name.toUpperCase()} (${it.confidence.format(2)})", it.x.toFloat(), it.y.toFloat() - 10)
 
-                    if(it.name.equals("person"))
+                    if(isPerson)
+                        fill(0f, 255f, 255f)
+                    else
+                        fill(255f, 255f, 0f)
+
+                    text("${it.name.toUpperCase()} (${it.confidence.format(2)})", it.x.toFloat() * scale, it.y.toFloat() * scale - 10)
+
+                    if(isPerson)
                         personCount++
                 }
+
+        popMatrix()
 
         // do something with results
         renderer.brightness.target = map(personCount.toFloat(), 0f, maxPerson.toFloat(), 0f, maxBrightness.toFloat())
