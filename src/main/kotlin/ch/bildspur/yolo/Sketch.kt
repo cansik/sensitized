@@ -10,6 +10,7 @@ import ch.bildspur.yolo.vision.YoloDetector
 import ch.bildspur.yolo.vision.format
 import ch.bildspur.yolo.vision.toMat
 import processing.core.PApplet
+import kotlin.math.roundToInt
 
 
 class Sketch : PApplet() {
@@ -32,7 +33,10 @@ class Sketch : PApplet() {
     override fun setup() {
         source.setup(this)
         detector.setup(this)
+
+        // serial renderer
         renderer.setup(this)
+        renderer.startAsync()
 
         brightness.value = 0f
     }
@@ -66,7 +70,7 @@ class Sketch : PApplet() {
         brightness.update()
 
         // render
-        renderer.render(brightness.value.toInt())
+        renderer.brightness = brightness.value.roundToInt()
 
         // show fps
         fpsAverage += frameRate.toDouble()
