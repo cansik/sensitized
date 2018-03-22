@@ -11,21 +11,24 @@ import ch.bildspur.yolo.vision.format
 import ch.bildspur.yolo.vision.toMat
 import processing.core.PApplet
 import processing.core.PConstants
+import processing.core.PFont
 import kotlin.math.roundToInt
 
 
 class Sketch : PApplet() {
     private val maxPerson = 10
-    private val maxBrightness = 1024
+    private val maxBrightness = 512
 
     private val source : ImageSource = PS3CamSource() //SingleImageSource("data/lena.png")
     private val detector : ImageDetector = YoloDetector()
     private val renderer = SerialRenderer("/dev/tty.SLAB_USBtoUART")
 
-    var minConfidence = 0.6
+    var minConfidence = 0.7
     var fpsAverage = ExponentialMovingAverage(0.1)
 
     val scale = 2f
+
+    lateinit var font : PFont
 
     override fun settings() {
         //size(800, 600, FX2D)
@@ -41,10 +44,13 @@ class Sketch : PApplet() {
         renderer.startAsync()
 
         renderer.brightness.value = 0f
+
+        font = createFont("Helvetica", 20f)
+        textFont(font, 18f)
     }
 
     override fun draw() {
-        background(55f)
+        background(22f)
 
         noCursor()
 
@@ -83,6 +89,11 @@ class Sketch : PApplet() {
                     if(isPerson)
                         personCount++
                 }
+
+
+        textSize(24f)
+        fill(255f)
+        text("SENSITIZED", 0f, -20f)
 
         popMatrix()
 

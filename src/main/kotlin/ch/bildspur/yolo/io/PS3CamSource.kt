@@ -10,6 +10,9 @@ class PS3CamSource : ImageSource {
     override fun setup(parent: PApplet) {
         cam = PS3EyeP5.getDevice(PApplet())!!
         cam.start()
+        cam.autoWhiteBalance = true
+        cam.autogain = true
+        cam.sharpness = 63
     }
 
     override fun readImage(): PImage {
