@@ -13,8 +13,8 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 class YoloDetector : ImageDetector {
-    private val configFile = "data/darknet/yolo.cfg"
-    private val weights = "data/darknet/yolo.weights"
+    private val configFile = "data/darknet/yolov2-tiny.cfg"
+    private val weights = "data/darknet/yolov2-tiny.weights"
     private val nameFile = "data/darknet/coco.names"
 
     private lateinit var net: Net

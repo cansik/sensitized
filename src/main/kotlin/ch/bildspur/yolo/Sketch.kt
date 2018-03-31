@@ -23,7 +23,7 @@ class Sketch : PApplet() {
     private val detector : ImageDetector = YoloDetector()
     private val renderer = SerialRenderer("/dev/tty.SLAB_USBtoUART")
 
-    var minConfidence = 0.7
+    var minConfidence = 0.5
     var fpsAverage = ExponentialMovingAverage(0.1)
 
     val scale = 2f
@@ -31,8 +31,8 @@ class Sketch : PApplet() {
     lateinit var font : PFont
 
     override fun settings() {
-        //size(800, 600, FX2D)
-        fullScreen(PConstants.FX2D)
+        size(800, 600, FX2D)
+        //fullScreen(PConstants.FX2D)
     }
 
     override fun setup() {
